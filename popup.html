@@ -1,0 +1,34 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+  <style>
+    body {
+      width: 260px;
+      margin: 0;
+      padding: 14px;
+      font: 13px/1.5 system-ui, sans-serif;
+    }
+    .count { color: #555; margin-bottom: 10px; }
+    .count b { color: #000; }
+    button {
+      width: 100%;
+      padding: 8px 0;
+      border: none;
+      border-radius: 6px;
+      background: #d93025;
+      color: #fff;
+      font-size: 13px;
+      cursor: pointer;
+    }
+    button:hover { background: #b3261e; }
+    #done { color: #188038; margin-top: 10px; display: none; }
+  </style>
+</head>
+<body>
+  <div class="count">当前历史记录：<b id="n">…</b> 条</div>
+  <button id="clear">清除全部历史</button>
+  <div id="done"></div>
+  <script src="popup.js"></script>
+</body>
+</html>

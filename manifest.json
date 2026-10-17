@@ -4,6 +4,10 @@
   "description": "实时删除搜索引擎结果页的浏览记录，使地址栏不再弹出搜索历史",
   "version": "1.0.0",
   "permissions": ["history"],
+  "action": {
+    "default_popup": "popup.html",
+    "default_title": "搜索历史清理器"
+  },
   "background": {
     "service_worker": "background.js"
   }
