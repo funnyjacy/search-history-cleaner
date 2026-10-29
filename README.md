@@ -1,6 +1,10 @@
-# 搜索历史清理器（Search History Cleaner）
+# <img src="icons/icon128.png" width="42" align="top"> 搜索历史清理器（Search History Cleaner）
 
 Chrome 扩展：实时删除搜索引擎结果页的浏览记录，使**地址栏下拉不再弹出搜索历史**。
+
+<p align="center">
+  <img src="docs/screenshot.png" width="360" alt="popup 截图">
+</p>
 
 ## 原理
 
