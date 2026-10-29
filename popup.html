@@ -4,31 +4,131 @@
   <meta charset="UTF-8">
   <style>
     body {
-      width: 260px;
+      width: 320px;
       margin: 0;
-      padding: 14px;
+      padding: 12px;
       font: 13px/1.5 system-ui, sans-serif;
     }
     .count { color: #555; margin-bottom: 10px; }
     .count b { color: #000; }
-    button {
-      width: 100%;
-      padding: 8px 0;
-      border: none;
-      border-radius: 6px;
-      background: #d93025;
-      color: #fff;
-      font-size: 13px;
-      cursor: pointer;
+    .toolbar { display: flex; gap: 6px; margin-bottom: 8px; }
+    .toolbar input {
+      flex: 1; min-width: 0;
+      padding: 4px 26px 4px 8px;
+      border: 1px solid #ccc; border-radius: 6px;
+      font: 13px system-ui, sans-serif;
     }
-    button:hover { background: #b3261e; }
-    #done { color: #188038; margin-top: 10px; display: none; }
+    .filter-wrap { flex: 1; min-width: 0; position: relative; display: flex; }
+    .filter-wrap input { width: 100%; }
+    #clearFilter {
+      position: absolute; right: 4px; top: 50%;
+      transform: translateY(-50%);
+      border: none; background: none;
+      color: #888; font-size: 13px; line-height: 1;
+      cursor: pointer; padding: 2px;
+      display: none;
+    }
+    #clearFilter:hover { color: #333; }
+    .toolbar select {
+      border: 1px solid #ccc; border-radius: 6px;
+      font: 13px system-ui, sans-serif;
+      background: #fff;
+    }
+    .actions { display: flex; gap: 6px; margin-bottom: 8px; }
+    .actions button {
+      flex: 1;
+      padding: 6px 0;
+      border: none; border-radius: 6px;
+      font-size: 13px; cursor: pointer;
+    }
+    #selAll { background: #e8f0fe; color: #1a56db; }
+    #delSelected {
+      background: #e8f0fe; color: #1a56db;
+    }
+    #delSelected:disabled { opacity: .45; cursor: default; }
+    #clear { background: #d93025; color: #fff; }
+    #clear:hover { background: #b3261e; }
+    #done { color: #188038; margin-bottom: 6px; display: none; }
+
+    /* 历史列表 */
+    #list {
+      max-height: 420px;
+      overflow-y: auto;
+      border-top: 1px solid #eee;
+      padding-top: 6px;
+    }
+    .group { margin-bottom: 2px; }
+    .group-head {
+      display: flex; align-items: center; gap: 4px;
+      padding: 3px 2px;
+      border-radius: 4px;
+      cursor: pointer;
+      user-select: none;
+    }
+    .group-head:hover { background: #f1f3f4; }
+    .tri { width: 0; height: 0; border-left: 5px solid #777;
+      border-top: 4px solid transparent; border-bottom: 4px solid transparent;
+      transition: none; flex: none; }
+    .group.open .tri { transform: rotate(90deg); }
+    .gname { flex: 1; min-width: 0; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; font-weight: 600; }
+    .gcount { color: #888; font-size: 12px; flex: none; }
+    .subhead {
+      color: #888; font-size: 12px;
+      padding: 2px 2px 1px 18px;
+    }
+    .row {
+      display: flex; align-items: center; gap: 4px;
+      padding: 2px 2px 2px 18px;
+      border-radius: 4px;
+    }
+    .row:hover { background: #f8f9fa; }
+    .row .info { flex: 1; min-width: 0; }
+    .row a {
+      display: block;
+      color: #1a0dab; text-decoration: none;
+      white-space: nowrap; overflow: hidden; text-overflow: ellipsis;
+    }
+    .row a:hover { text-decoration: underline; }
+    .row .meta { color: #999; font-size: 11px; }
+    .del {
+      flex: none;
+      border: none; background: none;
+      color: #d93025; font-size: 14px; cursor: pointer;
+      padding: 0 4px; line-height: 1;
+    }
+    .del:hover { color: #b3261e; }
+    #more {
+      width: 100%; margin-top: 6px;
+      padding: 6px 0;
+      border: 1px solid #ccc; border-radius: 6px;
+      background: #f8f9fa; cursor: pointer;
+      font-size: 12px;
+    }
+    #more:hover { background: #eef0f2; }
+    .empty { color: #888; text-align: center; padding: 16px 0; }
   </style>
 </head>
 <body>
   <div class="count">当前历史记录：<b id="n">…</b> 条</div>
-  <button id="clear">清除全部历史</button>
+  <div class="toolbar">
+    <div class="filter-wrap">
+      <input id="filter" type="text" placeholder="过滤：标题或网址关键词">
+      <button id="clearFilter" title="清除过滤">✕</button>
+    </div>
+    <select id="sort" title="域名组排序方式">
+      <option value="recent">按最近访问</option>
+      <option value="count-desc">次数从多到少</option>
+      <option value="count-asc">次数从少到多</option>
+    </select>
+  </div>
+  <div class="actions">
+    <button id="selAll">全选</button>
+    <button id="delSelected" disabled>删除选中项</button>
+    <button id="clear">清除全部历史</button>
+  </div>
   <div id="done"></div>
+  <div id="list"></div>
+  <button id="more" style="display:none">加载更多</button>
   <script src="popup.js"></script>
 </body>
 </html>
